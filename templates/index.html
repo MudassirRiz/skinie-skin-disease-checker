@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HealthBuddy - Check and identify potential skin diseases with our AI-powered tool" />
+  
+  <title> Skinie  Skin Disease Checker</title>
+
+
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/skinie.css') }}">
+ <link rel="stylesheet" href="/static/css/ani.css">
+
+</head>
+
+
+
+<body>
+  <div id="particles-js"></div>
+
+  <!-- Header-->
+  <header class="navbar">
+    <div class="logo">
+      <i class="fas fa-heartbeat"></i> Skinie 
+  </div>
+
+    <nav>
+      
+      <a href="{{ url_for('index') }}" class="contact-link">Home </a>
+      <a href="{{ url_for('about') }}"><i class="fa-solid fa-code"></i>Developer Section</a>
+      <a href="{{ url_for('dev') }}">About</a>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+</div>
+  <main>
+    <!-- Form container -->
+    <section class="container animate__animated animate__fadeInUp animate__delay-1s">
+      <div class="tabs">
+        <span class="active-tab">UPLOAD YOUR INFORMATION</span>
+      </div>
+      
+      <h1>Skin Disease Checker</h1>
+      <p class="subtitle">Upload a clear image of affected skin for analysis</p>
+
+      <form id="symptomForm" method="post" enctype="multipart/form-data">
+        <!-- Personal informationn -->
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" required 
+                placeholder="Enter your full name" autocomplete="name" />
+          <div class="error-message" id="fullname-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" required 
+                min="1" max="120" placeholder="Your age" />
+          <div class="error-message" id="age-error"></div>
+        </div>
+
+        <!-- Modern gendeer Select -->
+        <div class="form-group">
+          <label>Gender</label>
+          <input type="hidden" id="gender" name="gender" required>
+          <div class="gender-selector">
+            <button type="button" class="gender-btn" data-gender="Male">
+              <i class="fas fa-mars"></i> Male
+            </button>
+            <button type="button" class="gender-btn" data-gender="Female">
+              <i class="fas fa-venus"></i> Female
+            </button>
+            <button type="button" class="gender-btn" data-gender="Other">
+              <i class="fas fa-transgender"></i> Other
+            </button>
+          </div>
+          <div class="error-message" id="gender-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="bodyArea">Affected Body Area</label>
+          <select id="bodyArea" name="bodyArea" required>
+            <option value="" disabled selected>Select an area</option>
+            <option value="face">Face</option>
+            <option value="arms">Arms</option>
+            <option value="legs">Legs</option>
+            <option value="back">Back</option>
+            <option value="scalp">Scalp</option>
+            <option value="chest">Chest</option>
+            <option value="abdomen">Abdomen</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="error-message" id="bodyArea-error"></div>
+        </div>
+
+        <!-- <div class="form-group">
+          <label for="symptoms">Describe Symptoms (Optional)</label>
+          <textarea id="symptoms" name="symptoms" rows="4" 
+                  placeholder="Itching, redness, dry patches..."></textarea>
+        </div>
+ -->
+        <!-- modern Image Upload -->
+        <div class="form-group">
+          <label for="imageUpload">Upload Image</label>
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="imageUpload" name="img" accept="image/png, image/jpeg, image/jpg" 
+                  required hidden/>
+            <div class="upload-placeholder" id="uploadPlaceholder">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Drag image here or click to upload</p>
+              <span>Maximum file size: 5MB</span>
+            </div>
+            <div class="preview-container" id="previewContainer">
+              <img id="imagePreview" src="#" alt="Image Preview" />
+              <button type="button" id="removeImage" class="remove-btn">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="error-message" id="image-error"></div>
+        </div>
+        
+
+       <!--  <div class="form-group consent-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="consent" name="consent" required />
+            <span class="checkbox-custom"></span>
+            I consent to the processing of this information for diagnostic purposes.
+          </label>
+          <div class="error-message" id="consent-error"></div>
+        </div> -->
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>Upload and Continue</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form> 
+      {% if prediction %}
+  <div class="result-box">
+    <h2>Prediction Result:</h2>
+    <p style="font-size: 22px; font-weight: 600;">{{ prediction }}</p>
+
+    {% if image_url %}
+    <div class="predicted-image" style="margin-top: 20px; text-align: center;">
+      <h4 style="margin-bottom: 10px;">Uploaded Image:</h4>
+      <img src="{{ image_url }}" alt="Uploaded Image"
+           style="max-width: 320px; border-radius: 12px;
+                  box-shadow: 0 0 10px rgba(0,0,0,0.15);">
+    </div>
+    {% endif %}
+  </div>
+{% endif %}
+      <div class='wrapper'>
+  <div class='marquee'>
+    <img src='/static/images/lplp.jpg'>
+    <img src='/static/images/acnn.jpg'>
+    <img src='/static/images/neckk.jpeg'>
+    <img src='/static/images/sata.jpeg'>
+    <img src='/static/images/kala.jpg'>
+    <img src='/static/images/apll.jpeg'>
+    <img src='/static/images/subb.jpeg'>
+    <img src='/static/images/neckk.jpeg'>
+    <img src='/static/images/acnn.jpg'>
+    <img src='/static/images/sata.jpeg'>
+    
+  </div>
+  <dialog>
+    <img>
+  </dialog>
+
+    </section>
+    
+    
+  </main>
+
+  <!-- Footer hai ye -->
+  <footer>
+    <div class="footer-container">
+      
+
+     
+<!-- 
+        <div class="app-links">
+          <h4>Download Our App</h4>
+          <div class="app-buttons">
+            <a href="#">
+              <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" />
+            </a>
+            <a href="#">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" />
+            </a>
+          </div>
+        </div> -->
+      </section>
+
+     <!--  <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">For Advertisers</a>
+        <a href="#">Support</a>
+      </div> -->
+
+      <!-- <div class="certification">
+        <img src="#" alt="Tag Certified" />
+      </div> -->
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2025</span> skinie. Not a substitute for medical advice.</p>
+      </div>
+    </div>
+  </footer>
+
+ 
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <p>Processing your information...</p>
+  </div>
+
+  <!-- scripts -->
+  <script>
+    alert("Reload/Refresh the site after every Prediction");
+  // Gender select yuyu
+  document.querySelectorAll('.gender-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+      document.getElementById('gender').value = button.getAttribute('data-gender');
+    });
+  });
+
+  // Image upload preview (result)
+  const uploadArea = document.getElementById('uploadArea');
+  const imageUpload = document.getElementById('imageUpload');
+  const imagePreview = document.getElementById('imagePreview');
+  const previewContainer = document.getElementById('previewContainer');
+  const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+  const removeImageBtn = document.getElementById('removeImage');
+
+  // Click to trigger file selection
+  uploadPlaceholder.addEventListener('click', () => {
+    imageUpload.click();
+  });
+
+  // Show preview when image is selected
+  imageUpload.addEventListener('change', () => {
+    const file = imageUpload.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        imagePreview.src = reader.result;
+        previewContainer.style.display = 'block';
+        uploadPlaceholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Remove selected image , ye karega remove , iska logic likhne me 2 din gya hai
+  removeImageBtn.addEventListener('click', () => {
+    imageUpload.value = '';
+    previewContainer.style.display = 'none';
+    uploadPlaceholder.style.display = 'block';
+  });
+</script>
+<script>
+document.getElementById('symptomForm').addEventListener('submit', function (e) {
+  e.preventDefault(); //  Stop normal reload
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  // Shows loading overlay (optional)
+  document.getElementById('loadingOverlay').style.display = 'flex';
+
+  fetch('/', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(html => {
+    
+    document.open();
+    document.write(html);
+    document.close();
+  })
+  .catch(error => {
+    alert('Something went wrong: ' + error);
+  });
+});
+
+
+document.querySelectorAll('.info-tab').forEach(button => {
+  button.addEventListener('click', () => {
+    
+    document.querySelectorAll('.info-tab').forEach(btn => btn.classList.remove('active'));
+    
+    document.querySelectorAll('.info-panel').forEach(panel => panel.style.display = 'none');
+
+    
+    button.classList.add('active');
+    const selectedTab = button.getAttribute('data-tab');
+    document.getElementById(selectedTab).style.display = 'block';
+  });
+});
+
+//image marqu banaya tha js
+const wrapper = document.querySelector('.wrapper');
+const marquee = document.querySelector('.marquee');
+const dialog = document.querySelector('dialog');
+const hero = document.querySelector('dialog > img');
+
+function modal(e,show) {
+  show ? dialog.showModal() : dialog.close();
+  hero.setAttribute('src',show ? e.target.dataset.src : '');
+  marquee.style.visibility = show ? 'hidden' : 'visible';
+  wrapper.style.setProperty('--overlay', show ? 'black' : 'transparent')
+}
+
+function init(e) {
+  e.target.matches('.marquee > img') && modal(e,'show')
+  e.target.matches('html') && modal();
+}
+
+
+</script>
+
+  
+</body>
+</html>

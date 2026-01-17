@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HealthBuddy - Check and identify potential skin diseases with our AI-powered tool" />
+  
+  <title> Skinie  Skin Disease Checker</title>
+
+  
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/skinie.css') }}">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/dev.css') }}">
+ <link rel="stylesheet" href="/static/css/dev-use.css">
+ 
+
+</head>
+
+
+
+<body>
+  <div id="particles-js"></div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">
+      <i class="fas fa-heartbeat"></i> Skinie 
+  </div>
+
+    <nav>
+        
+        <a href="{{ url_for('index') }}" class="contact-link">Home </a>
+      <a href="{{ url_for('about') }}"><i class="fa-solid fa-code"></i>Developer Section</a>
+      <a href="{{ url_for('dev') }}">About</a>
+    </nav>
+  </header>
+</header>
+<!--  ABOUT SECTION  -->
+<section class="about-section">
+  <div class="about-container">
+    <h2 class="about-heading">About <span>Skinie</span></h2>
+    <p class="about-tagline">Your Smart Skin Health Assistant Powered by AI</p>
+
+    <div class="about-content">
+      <div class="about-left">
+        <h3>🌟 What is Skinie?</h3>
+        <p>
+          Skinie is an AI-powered web app built to detect potential skin diseases using image analysis. 
+          Upload a photo of the affected area, and our deep learning model trained on medical datasets 
+          helps predict the condition instantly. Currently trained on 5 skin diseases, with scope for future expansion.
+        </p>
+
+        <h3>⚙️ How It Works</h3>
+        <ul>
+          <li><strong>1. Upload:</strong> User uploads a skin image.</li>
+          <li><strong>2. Preprocessing:</strong> The image is resized and cleaned.</li>
+          <li><strong>3. Prediction:</strong> Our trained model analyzes the image.</li>
+          <li><strong>4. Output:</strong> Skinie returns the predicted skin condition.</li>
+        </ul>
+
+        <h3>❤️ Why Skinie?</h3>
+        <p>
+          Early skin disease detection can save lives. Skinie empowers users with instant feedback even 
+          in areas lacking medical access. It’s free, fast, and user-friendly.
+        </p>
+      </div>
+
+      <div class="about-right">
+        <img src="/static/Screenshots/skinie 1.jpg" alt="AI Skin Detection">
+      </div>
+    </div>
+  </div>
+</section>
+<section class="how-to-use-section">
+  <h2>How to Use Skinie</h2>
+  <div class="steps-grid">
+    <div class="step-card">
+      <img src="/static/images/fill-all.jpg" alt="Upload Image">
+      <h3>Step 1</h3>
+      <p>Fill out the form with all the details .</p>
+      
+    </div>
+    <div class="step-card">
+      <img src="/static/Screenshots/skinie 2.jpg" alt="Model Analyzing">
+      <h3>Step 2</h3>
+      <p>Upload the clear image of the affected area.</p>
+      
+    </div>
+    <div class="step-card">
+      <img src="/static/Screenshots/skinie 3.jpg" alt="View Result">
+      <h3>Step 3</h3>
+      <p>View the prediction and suggested skin condition.</p>
+      
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+     
+
+      
+<!-- 
+        <div class="app-links">
+          <h4>Download Our App</h4>
+          <div class="app-buttons">
+            <a href="#">
+              <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" />
+            </a>
+            <a href="#">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" />
+            </a>
+          </div>
+        </div> -->
+      </section>
+
+     
+
+      <!-- <div class="certification">
+        <img src="#" alt="Tag Certified" />
+      </div> -->
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2025</span> skinie. Not a substitute for medical advice. <a href="#">More info</a></p>
+      </div>
+    </div>
+  </footer>

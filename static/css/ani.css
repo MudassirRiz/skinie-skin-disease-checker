@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  height: 30vh;
+  height: 30svh;
+  display: grid;
+  place-items: center;
+  background-color: var(--overlay);
+  transition: background-color 0.8s;
+}
+
+.marquee {
+  display: grid;
+  grid-template-columns: repeat(9,minmax(12vmin,1fr));
+  width: 80%;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    rgba(0,0,0,1) 10%,
+    rgba(0,0,0,1) 90%,
+    rgba(0,0,0,0)
+  );
+
+  & img {
+    --time: 35s;
+    position: relative;
+    width: 105%;
+    aspect-ratio: 1;
+    grid-column: 1;
+    grid-row: 1;
+    object-fit: cover;
+    cursor: pointer;
+    left: calc(100% * 9);
+    animation: marquee var(--time) linear infinite;
+
+    &:nth-of-type(1) { animation-delay: calc((var(--time) / 9) * (9 - 1) * -1); }
+    &:nth-of-type(2) { animation-delay: calc((var(--time) / 9) * (9 - 2) * -1); }
+    &:nth-of-type(3) { animation-delay: calc((var(--time) / 9) * (9 - 3) * -1); }
+    &:nth-of-type(4) { animation-delay: calc((var(--time) / 9) * (9 - 4) * -1); }
+    &:nth-of-type(5) { animation-delay: calc((var(--time) / 9) * (9 - 5) * -1); }
+    &:nth-of-type(6) { animation-delay: calc((var(--time) / 9) * (9 - 6) * -1); }
+    &:nth-of-type(7) { animation-delay: calc((var(--time) / 9) * (9 - 7) * -1); }
+    &:nth-of-type(8) { animation-delay: calc((var(--time) / 9) * (9 - 8) * -1); }
+    &:nth-of-type(9) { animation-delay: calc((var(--time) / 9) * (9 - 9) * -1); }
+  }
+}
+
+@keyframes marquee {
+  to {
+    left: -100%;
+  }
+}
+
+dialog {
+  border: none;
+  outline: none;
+  margin: auto;
+  border-radius: 0.25rem;
+  background-color: transparent;
+
+  &::backdrop { display: none; }
+
+  & img {
+    width: min(800px,80vw);
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+}
